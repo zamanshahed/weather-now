@@ -39,10 +39,10 @@ export type Forecast3HrItem = {
   };
   sys?: {
     pod?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   dt_txt?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export type ForecastResponseType = {
@@ -56,14 +56,14 @@ export type ForecastResponseType = {
     coord?: {
       lat?: number;
       lon?: number;
-      [key: string]: any;
+      [key: string]: unknown;
     };
     country?: string;
     population?: number;
     timezone?: number;
     sunrise?: number;
     sunset?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
-  [key: string]: any;
+  [key: string]: unknown;
 };

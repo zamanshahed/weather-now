@@ -13,6 +13,7 @@ export default function TopSection() {
       localStorage.setItem("units", "metric");
       setUnits("metric");
     } else setUnits(localUnit as "metric" | "imperial");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,57 +1,65 @@
 import { useWeatherStore } from "@/app/store/useWeatherStore";
 import { BaseUrl, ForecastWeatherUrl, OpenWeatherApiKey } from "../Urls";
 import {
+  DailyForecastResponseType,
   Forecast3HrItem,
   ForecastResponseType,
 } from "@/app/types/ForecastResponseType";
 
-function getFiveDayForecast(data: ForecastResponseType) {
-  const daily = {};
+function getFiveDayForecast(
+  data: ForecastResponseType,
+): Array<DailyForecastResponseType> {
+  // explicit typing for the accumulator
+  const daily: Record<string, { temps: number[]; icons: string[] }> = {};
 
-  data.list.forEach((entry: Forecast3HrItem) => {
-    const date = entry.dt_txt.split(" ")[0];
-    const temp = entry.main.temp;
+  data?.list!.forEach((entry: Forecast3HrItem) => {
+    const date = entry.dt_txt!.split(" ")[0]; // "YYYY-MM-DD"
+    const temp = entry.main!.temp;
 
     if (!daily[date]) {
-      daily[date] = {
-        temps: [],
-        icons: [],
-      };
+      daily[date] = { temps: [], icons: [] };
     }
 
-    daily[date].temps.push(temp);
-    daily[date].icons.push(entry.weather[0].icon);
+    daily[date].temps.push(temp!);
+    // guard: ensure weather[0] exists and has an icon
+    if (entry.weather && entry.weather[0] && entry.weather[0].icon) {
+      daily[date].icons.push(entry.weather[0].icon);
+    }
   });
 
-  const result = Object.keys(daily)
-    .slice(0, 5)
-    .map((date) => {
-      const temps = daily[date].temps;
-      const dayTemp = Math.max(...temps); // daytime high
-      const nightTemp = Math.min(...temps); // nighttime low
+  // sort dates to ensure chronological order, then take first 5
+  const dates = Object.keys(daily).sort().slice(0, 5);
 
-      // Most frequent icon
-      const icons = daily[date].icons;
-      const icon = icons
-        .sort(
-          (a, b) =>
-            icons.filter((v) => v === a).length -
-            icons.filter((v) => v === b).length,
-        )
-        .pop();
+  const result = dates.map((date) => {
+    const temps = daily[date].temps;
+    const dayTemp = Math.max(...temps);
+    const nightTemp = Math.min(...temps);
 
-      // Format day name
-      const dayName = new Date(date).toLocaleDateString("en-US", {
-        weekday: "short",
-      });
+    // pick the most frequent icon safely
+    const icons = daily[date].icons;
+    let icon = "";
+    if (icons.length) {
+      const freq = icons.reduce<Record<string, number>>((acc, v) => {
+        acc[v] = (acc[v] || 0) + 1;
+        return acc;
+      }, {});
+      // find icon with max frequency
+      icon = Object.entries(freq).reduce((best, cur) =>
+        cur[1] > best[1] ? cur : best,
+      )[0];
+    }
 
-      return {
-        day: dayName,
-        day_temp: dayTemp.toFixed(1),
-        night_temp: nightTemp.toFixed(1),
-        icon,
-      };
+    const dayName = new Date(date).toLocaleDateString("en-US", {
+      weekday: "short",
     });
+
+    return {
+      day: dayName,
+      day_temp: Number(dayTemp.toFixed(1)),
+      night_temp: Number(nightTemp.toFixed(1)),
+      icon,
+    };
+  });
 
   return result;
 }
