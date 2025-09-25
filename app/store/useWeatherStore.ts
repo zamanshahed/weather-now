@@ -4,8 +4,10 @@ import { create } from "zustand";
 import { WeatherResponseType } from "../types/WeatherResponseType";
 import {
   DailyForecastResponseType,
+  ForecastData,
   ForecastResponseType,
 } from "../types/ForecastResponseType";
+import { dayString } from "../component/DaySelector";
 
 type WeatherState = {
   searchFieldText: string;
@@ -24,6 +26,12 @@ type WeatherState = {
 
   units: "metric" | "imperial";
   setUnits: (units: "metric" | "imperial") => void;
+
+  selectedDay: dayString | "";
+  setSelectedDay: (day: dayString) => void;
+
+  hourlyForecastResponse: ForecastData | null;
+  setHourlyForecastResponse: (response: ForecastData | null) => void;
 };
 
 export const useWeatherStore = create<WeatherState>((set) => ({
@@ -45,4 +53,11 @@ export const useWeatherStore = create<WeatherState>((set) => ({
 
   units: "metric",
   setUnits: (units: "metric" | "imperial") => set(() => ({ units })),
+
+  selectedDay: "",
+  setSelectedDay: (day: dayString) => set(() => ({ selectedDay: day })),
+
+  hourlyForecastResponse: null,
+  setHourlyForecastResponse: (response: ForecastData | null) =>
+    set(() => ({ hourlyForecastResponse: response })),
 }));

@@ -1,3 +1,11 @@
+export type ForecastItem = {
+  time: string;
+  temp: number;
+  icon: string;
+};
+
+export type ForecastData = Record<string, ForecastItem[]>;
+
 export type DailyForecastResponseType = {
   day: string;
   day_temp: number;

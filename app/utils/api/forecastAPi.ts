@@ -5,6 +5,75 @@ import {
   Forecast3HrItem,
   ForecastResponseType,
 } from "@/app/types/ForecastResponseType";
+import { dayString } from "@/app/component/DaySelector";
+
+type HourlyForecast = {
+  dt_txt: string;
+  main: { temp: number };
+  weather: { icon: string }[];
+};
+
+export type ProcessedForecast = {
+  time: string;
+  temp: number;
+  icon: string;
+};
+
+type DailyForecastRecord = Record<string, ProcessedForecast[]>;
+
+function processHourlyForecastByDay(data: {
+  list: HourlyForecast[];
+}): DailyForecastRecord {
+  const result: DailyForecastRecord = {};
+
+  data.list.forEach((item) => {
+    // Parse as UTC explicitly (API dt_txt is UTC). Appending 'Z' forces UTC parsing.
+    const utcDate = new Date(item.dt_txt + "Z");
+
+    // Convert and format in Bangladesh time (Asia/Dhaka, UTC+6)
+    const bdDayName = utcDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      timeZone: "Asia/Dhaka",
+    });
+
+    // 12-hour time like "6 PM" in BD time
+    const timeStr = utcDate.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      hour12: true,
+      timeZone: "Asia/Dhaka",
+    });
+
+    const weatherIcon = item.weather?.[0]?.icon ?? "";
+
+    const tempC = Math.round(item.main.temp);
+
+    // Use a temporary object that includes timestamp for sorting
+    const processedWithTs = {
+      time: timeStr,
+      temp: tempC,
+      icon: weatherIcon,
+      ts: utcDate.getTime(), // keep UTC ms so relative ordering is stable
+    } as ProcessedForecast & { ts: number };
+
+    if (!result[bdDayName]) result[bdDayName] = [];
+
+    // Push the processed item (we'll sort and strip ts later)
+    // We store ts alongside in the array via type assertion
+    (result[bdDayName] as Array<ProcessedForecast & { ts: number }>).push(
+      processedWithTs,
+    );
+  });
+
+  // Sort each day's entries by timestamp (chronological in BD time), then remove ts field
+  Object.keys(result).forEach((day) => {
+    const arr = result[day] as Array<ProcessedForecast & { ts: number }>;
+    arr.sort((a, b) => a.ts - b.ts);
+    // strip ts
+    result[day] = arr.map(({ ts, ...rest }) => rest);
+  });
+
+  return result;
+}
 
 function getFiveDayForecast(
   data: ForecastResponseType,
@@ -68,16 +137,24 @@ export const ForecastWeatherApi = async (
   cityName: string,
   numberOfTimeStamps: number,
 ) => {
-  const { setForecastResponse, setFiveDayForecastResponse, units } =
-    useWeatherStore.getState();
+  const {
+    units,
+    setSelectedDay,
+    setForecastResponse,
+    setFiveDayForecastResponse,
+    setHourlyForecastResponse,
+  } = useWeatherStore.getState();
   try {
     const response = await fetch(
       `${BaseUrl}${ForecastWeatherUrl}?q=${cityName}&cnt=${numberOfTimeStamps}&appid=${OpenWeatherApiKey}&units=${units}`,
     );
     const data = await response.json();
-    // console.log("ForecastWeatherApi", data);
     const fiveDaysData = getFiveDayForecast(data);
-    // console.log("Five Days Forecast", fiveDaysData);
+    const processed = processHourlyForecastByDay(data);
+    console.log(processed);
+    setHourlyForecastResponse(processed);
+    const processedDayArray = Object.keys(processed) as dayString[];
+    setSelectedDay(processedDayArray[0]);
     setFiveDayForecastResponse(fiveDaysData);
     setForecastResponse(data);
     return data;

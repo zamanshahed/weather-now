@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import * as React from "react";
 import { IconsUrl } from "../utils/Urls";
+import { useWeatherStore } from "../store/useWeatherStore";
 
 interface WeatherForecastCardProps {
   day: string;
@@ -15,18 +18,23 @@ const WeatherForecastCard: React.FC<WeatherForecastCardProps> = ({
   dayTemp,
   nightTemp,
 }) => {
+  const { units } = useWeatherStore();
   return (
-    <div className="flex flex-col items-center justify-center gap-6 bg-[#262540] border border-[#3C3B5E] rounded-xl text-white p-5">
+    <div className="flex flex-col items-center justify-center gap-4 bg-[#262540] border border-[#3C3B5E] rounded-xl text-white py-4 px-2.5 w-full">
       <label className="text-lg capitalize font-medium">{day}</label>
       <Image
         src={IconsUrl + iconCode + "@2x.png"}
         alt="weather Icon"
-        width={100}
-        height={100}
+        width={60}
+        height={60}
       />
-      <div className="flex items-center justify-center gap-2">
-        <label className="text-lg font-medium">{dayTemp}°</label>
-        <label className="text-lg font-medium">{nightTemp}°</label>
+      <div className="flex w-full items-center justify-between">
+        <label className="text-lg font-medium">
+          {dayTemp}°{units === "metric" ? "C" : "F"}
+        </label>
+        <label className="text-lg font-medium">
+          {nightTemp}°{units === "metric" ? "C" : "F"}
+        </label>
       </div>
     </div>
   );

@@ -7,8 +7,7 @@ import { IconsUrl } from "../utils/Urls";
 import { countryMap } from "../utils/countryCodes";
 
 const HeroCard: React.FC = () => {
-  const { weatherResponse } = useWeatherStore();
-  // console.log({ weatherResponse });
+  const { weatherResponse, units } = useWeatherStore();
 
   return (
     <div className="relative text-white">
@@ -51,7 +50,7 @@ const HeroCard: React.FC = () => {
           <div className="flex flex-col items-center">
             <p className="text-[96px] font-semibold">
               {weatherResponse?.main.temp.toFixed(1)}
-              {"°"}
+              {units === "metric" ? "°C" : "°F"}
             </p>
           </div>
         </div>

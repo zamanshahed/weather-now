@@ -3,9 +3,18 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { useWeatherStore } from "../store/useWeatherStore";
+import UnitSelector from "./UnitSelector";
+import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 
 export default function TopSection() {
-  const { setUnits } = useWeatherStore();
+  const { units, setUnits, searchFieldText } = useWeatherStore();
+
+  const handleUnitChange = (value: string) => {
+    const newUnit = value as "metric" | "imperial";
+    setUnits(newUnit);
+    localStorage.setItem("units", newUnit);
+    CurrentWeatherApi(searchFieldText); //refetch the data with desired units pref.
+  };
 
   useEffect(() => {
     const localUnit = localStorage.getItem("units");
@@ -22,15 +31,7 @@ export default function TopSection() {
         <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
         <h1 className="text-white text-2xl font-semibold">Weather Today</h1>
       </div>
-      <select className="bg-transparent border-none text-white">
-        <option className="bg-[#1E1B4B]">Unit</option>
-        <option className="bg-[#1E1B4B]" value="C">
-          C
-        </option>
-        <option className="bg-[#1E1B4B]" value="F">
-          F
-        </option>
-      </select>
+      <UnitSelector value={units} onChange={handleUnitChange} />
     </div>
   );
 }
