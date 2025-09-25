@@ -43,7 +43,6 @@ const HeroCard: React.FC = () => {
               alt="weather Icon"
               width={100}
               height={100}
-              // className="-ml-2.5"
             />
             <p className="text-sm text-center mx-auto font-medium capitalize -mt-4">
               {weatherResponse?.weather[0]?.description}

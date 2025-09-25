@@ -2,7 +2,10 @@
 
 import { create } from "zustand";
 import { WeatherResponseType } from "../types/WeatherResponseType";
-import { ForecastResponseType } from "../types/ForecastResponseType";
+import {
+  DailyForecastResponseType,
+  ForecastResponseType,
+} from "../types/ForecastResponseType";
 
 type WeatherState = {
   searchFieldText: string;
@@ -13,6 +16,11 @@ type WeatherState = {
 
   forecastResponse: ForecastResponseType | null;
   setForecastResponse: (response: ForecastResponseType | null) => void;
+
+  fiveDayForecastResponse: DailyForecastResponseType[] | null;
+  setFiveDayForecastResponse: (
+    response: DailyForecastResponseType[] | null,
+  ) => void;
 
   units: "metric" | "imperial";
   setUnits: (units: "metric" | "imperial") => void;
@@ -30,6 +38,10 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   forecastResponse: null,
   setForecastResponse: (response: ForecastResponseType | null) =>
     set(() => ({ forecastResponse: response })),
+
+  fiveDayForecastResponse: null,
+  setFiveDayForecastResponse: (response: DailyForecastResponseType[] | null) =>
+    set(() => ({ fiveDayForecastResponse: response })),
 
   units: "metric",
   setUnits: (units: "metric" | "imperial") => set(() => ({ units })),

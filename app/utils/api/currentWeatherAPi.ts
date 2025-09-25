@@ -9,7 +9,7 @@ export const CurrentWeatherApi = async (cityName: string) => {
       `${BaseUrl}${CurrentWeatherUrl}?q=${cityName}&appid=${OpenWeatherApiKey}&units=${units}`,
     );
     const data = await response.json();
-    if (data?.coord?.lat && data?.coord?.lon) ForecastWeatherApi(cityName, 7);
+    if (data?.coord?.lat && data?.coord?.lon) ForecastWeatherApi(cityName, 40);
     setWeatherResponse(data);
     return data;
   } catch (error) {

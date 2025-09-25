@@ -12,7 +12,7 @@ export default function SearchBox() {
     CurrentWeatherApi(searchFieldText);
   };
   return (
-    <div className="w-full">
+    <div className="w-full mt-18">
       <h1 className="text-white text-center text-4xl font-light w-full mb-8">
         How is the sky looking today?
       </h1>
@@ -20,7 +20,7 @@ export default function SearchBox() {
         onSubmit={handleSearch}
         className="w-full flex items-center justify-center gap-3"
       >
-        <div className="relative w-full">
+        <div className="relative w-full max-w-[640px]">
           <input
             required
             type="search"
