@@ -3,14 +3,13 @@
 import Image from "next/image";
 import React from "react";
 import { useWeatherStore } from "../store/useWeatherStore";
-import { SearchCityApi } from "../utils/api/SearchCityAPi";
+import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 
 export default function SearchBox() {
   const { searchFieldText, setSearchFieldText } = useWeatherStore();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(searchFieldText);
-    SearchCityApi(searchFieldText);
+    CurrentWeatherApi(searchFieldText);
   };
   return (
     <div className="w-full">

@@ -3,3 +3,4 @@ export const BaseUrl = "https://api.openweathermap.org/data/2.5";
 export const IconsUrl = "https://openweathermap.org/img/wn/";
 
 export const CurrentWeatherUrl = "/weather";
+export const ForecastWeatherUrl = "/forecast";

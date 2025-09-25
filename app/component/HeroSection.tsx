@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
     );
-  else
+  else if (weatherResponse && !weatherResponse?.name)
     return (
       <div className="mt-5 text-gray-300 font-semibold text-base">
         City not found
