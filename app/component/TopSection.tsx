@@ -1,9 +1,20 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import { useWeatherStore } from "../store/useWeatherStore";
 
-type Props = {};
+export default function TopSection() {
+  const { setUnits } = useWeatherStore();
 
-export default function TopSection({}: Props) {
+  useEffect(() => {
+    const localUnit = localStorage.getItem("units");
+    if (!localUnit) {
+      localStorage.setItem("units", "metric");
+      setUnits("metric");
+    } else setUnits(localUnit as "metric" | "imperial");
+  }, []);
+
   return (
     <div className="flex justify-between w-full">
       <div className="gap-2.5 flex items-center">

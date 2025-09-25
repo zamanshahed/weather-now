@@ -1,3 +1,5 @@
+import HeroCard from "./component/HeroCard";
+import HeroSection from "./component/HeroSection";
 import SearchBox from "./component/SearchBox";
 import TopSection from "./component/TopSection";
 
@@ -8,6 +10,7 @@ export default function Home() {
       <div className="mt-18">
         <SearchBox />
       </div>
+      <HeroSection />
     </div>
   );
 }

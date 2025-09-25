@@ -2,25 +2,33 @@
 
 import Image from "next/image";
 import React from "react";
+import { useWeatherStore } from "../store/useWeatherStore";
+import { SearchCityApi } from "../utils/api/SearchCityAPi";
 
-type Props = {};
-
-export default function SearchBox({}: Props) {
+export default function SearchBox() {
+  const { searchFieldText, setSearchFieldText } = useWeatherStore();
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(searchFieldText);
+    SearchCityApi(searchFieldText);
+  };
   return (
     <div className="w-full">
       <h1 className="text-white text-center text-4xl font-light w-full mb-8">
         How is the sky looking today?
       </h1>
       <form
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
+        onSubmit={handleSearch}
         className="w-full flex items-center justify-center gap-3"
       >
-        <div className="relative w-full max-w-[640px]">
+        <div className="relative w-full">
           <input
             required
-            type="text"
+            type="search"
+            value={searchFieldText}
+            onChange={(e) => setSearchFieldText(e.target.value)}
             placeholder="Search for a place..."
-            className="w-full py-3 pr-4 pl-12 border border-[#4B5563B2]/70 bg-[#262540] text-[#D4D3D9] rounded-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-white outline-offset-2"
+            className="!w-full py-3 pr-4 pl-12 border border-[#4B5563B2]/70 bg-[#262540] text-[#D4D3D9] rounded-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-white outline-offset-2"
           />
           <Image
             alt="search-icon"
