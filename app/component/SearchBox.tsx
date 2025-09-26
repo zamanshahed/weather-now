@@ -1,19 +1,27 @@
 "use client";
 
+import { LineSpinner } from "ldrs/react";
+import "ldrs/react/DotWave.css";
+import "ldrs/react/LineSpinner.css";
 import Image from "next/image";
 import React from "react";
+import { useGeneralStore } from "../store/useGeneralStore";
 import { useWeatherStore } from "../store/useWeatherStore";
 import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 
 export default function SearchBox() {
   const { searchFieldText, setSearchFieldText } = useWeatherStore();
+  const { isLoading } = useGeneralStore();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     CurrentWeatherApi(searchFieldText);
   };
   return (
     <div className="w-full mt-18">
-      <h1 className="text-white text-center text-4xl font-light w-full mb-8">
+      <h1
+        style={{ fontFamily: "var(--font-bricolage)" }}
+        className="text-white text-center text-[52px] font-bold w-full mb-8"
+      >
         How is the sky looking today?
       </h1>
       <form
@@ -39,9 +47,13 @@ export default function SearchBox() {
         </div>
         <button
           type="submit"
+          disabled={isLoading}
           className="bg-blue-500 hover:bg-blue-700 text-white py-3 px-7 rounded-xl font-medium cursor-pointer hover:outline-blue-500 hover:outline-2 outline-offset-2"
         >
-          Search
+          {isLoading ? "Loading..." : "Search"}
+          {isLoading && (
+            <LineSpinner size="16" stroke="1.5" speed="1" color="black" />
+          )}
         </button>
       </form>
     </div>

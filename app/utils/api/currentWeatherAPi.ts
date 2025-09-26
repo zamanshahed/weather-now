@@ -15,11 +15,12 @@ export const CurrentWeatherApi = async (cityName: string) => {
     const data = await response.json();
     if (!response.ok) {
       setCentralErrorDepo([data?.message]);
+      setWeatherResponse(null);
       setIsLoading(false);
     } else {
+      setWeatherResponse(data);
       if (data?.coord?.lat && data?.coord?.lon)
         ForecastWeatherApi(cityName, 40);
-      setWeatherResponse(data);
       return data;
     }
   } catch (error) {

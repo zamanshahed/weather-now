@@ -29,7 +29,12 @@ export default function TopSection() {
     <div className="flex justify-between w-full">
       <div className="gap-2.5 flex items-center">
         <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
-        <h1 className="text-white text-2xl font-semibold">Weather Today</h1>
+        <h1
+          style={{ fontFamily: "var(--font-bricolage)" }}
+          className="text-white text-[22px] font-bold"
+        >
+          Weather Today
+        </h1>
       </div>
       <UnitSelector value={units} onChange={handleUnitChange} />
     </div>

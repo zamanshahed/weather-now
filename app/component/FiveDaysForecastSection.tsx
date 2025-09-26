@@ -3,9 +3,11 @@
 import * as React from "react";
 import { useWeatherStore } from "../store/useWeatherStore";
 import WeatherForecastCard from "./WeatherForcastCard";
+import { useGeneralStore } from "../store/useGeneralStore";
 
 const FiveDaysForecastSection: React.FC = () => {
   const { fiveDayForecastResponse, weatherResponse } = useWeatherStore();
+  const { isLoading } = useGeneralStore();
   if (fiveDayForecastResponse?.length && weatherResponse?.name)
     return (
       <div className="mt-12 w-full max-w-[800px]">
@@ -16,6 +18,7 @@ const FiveDaysForecastSection: React.FC = () => {
           {fiveDayForecastResponse.map((item, index) => (
             <WeatherForecastCard
               key={index}
+              isLoading={isLoading}
               day={item?.day}
               iconCode={item?.icon}
               dayTemp={item?.day_temp}
