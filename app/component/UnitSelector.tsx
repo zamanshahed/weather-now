@@ -13,11 +13,29 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ value, onChange }) => {
     setIsOpen(!isOpen);
   };
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-2.5 select-none bg-[#262540] hover:outline-2 outline-offset-1 rounded-lg px-4 py-3 text-white font-medium cursor-pointer"
+        className="flex items-center gap-2.5 select-none bg-[#262540] hover:outline-2 outline-offset-1 rounded-lg md:px-4 md:py-3 md:text-base text-sm px-2.5 py-2 text-white font-medium cursor-pointer"
       >
         <Image
           src={"/icons/units-icon.svg"}
@@ -25,7 +43,12 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ value, onChange }) => {
           width={16}
           height={16}
         />
-        Units ({value})
+        <span>
+          <span>Units</span>
+          <span className="ml-2">
+            ({value === "metric" ? "Metric" : "Imperial"})
+          </span>
+        </span>
         <Image
           src={"/icons/down-arrow.svg"}
           alt="unit-selector-icon"

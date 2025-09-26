@@ -22,9 +22,11 @@ const HourlyForecastSection: React.FC = () => {
   if (weatherResponse?.name && hourlyForecastResponse) {
     const daysArray = Object.keys(hourlyForecastResponse) as dayString[];
     return (
-      <div className="w-[384px] rounded-2xl bg-[#262540] text-white p-6">
+      <div className="lg:w-[384px] w-full rounded-2xl bg-[#262540] text-white md:p-6 p-4 sm:mt-0 mt-3">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl font-semibold">Hourly Forecast</h1>
+          <h1 className="md:text-xl text-base font-semibold">
+            Hourly Forecast
+          </h1>
           {isLoading ? (
             <DotPulse size="24" speed="1.3" color="white" />
           ) : (
@@ -35,7 +37,7 @@ const HourlyForecastSection: React.FC = () => {
             />
           )}
         </div>
-        <ul className="space-y-4">
+        <ul className="space-y-4 max-h-[685px] overflow-y-auto">
           {isLoading
             ? [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                 <li

@@ -5,9 +5,16 @@ import React, { useEffect } from "react";
 import { useWeatherStore } from "../store/useWeatherStore";
 import UnitSelector from "./UnitSelector";
 import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
+import Link from "next/link";
 
 export default function TopSection() {
-  const { units, setUnits, weatherResponse } = useWeatherStore();
+  const {
+    units,
+    setUnits,
+    weatherResponse,
+    setWeatherResponse,
+    setSearchFieldText,
+  } = useWeatherStore();
 
   const handleUnitChange = (value: string) => {
     const newUnit = value as "metric" | "imperial";
@@ -27,15 +34,28 @@ export default function TopSection() {
 
   return (
     <div className="flex justify-between w-full">
-      <div className="gap-2.5 flex items-center">
-        <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
+      <Link
+        href="/"
+        onClick={() => {
+          setWeatherResponse(null);
+          setSearchFieldText("");
+        }}
+        className="gap-2.5 flex items-center"
+      >
+        <Image
+          src="/icons/logo.svg"
+          alt="logo"
+          width={40}
+          height={40}
+          className="w-7 h-7 md:w-10 md:h-10"
+        />
         <h1
           style={{ fontFamily: "var(--font-bricolage)" }}
-          className="text-white text-[22px] font-bold"
+          className="text-white md:text-[22px] text-sm font-bold"
         >
           Weather Today
         </h1>
-      </div>
+      </Link>
       <UnitSelector value={units} onChange={handleUnitChange} />
     </div>
   );

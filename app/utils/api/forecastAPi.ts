@@ -1,12 +1,12 @@
+import { dayString } from "@/app/component/DaySelector";
+import { useGeneralStore } from "@/app/store/useGeneralStore";
 import { useWeatherStore } from "@/app/store/useWeatherStore";
-import { BaseUrl, ForecastWeatherUrl, OpenWeatherApiKey } from "../Urls";
 import {
   DailyForecastResponseType,
   Forecast3HrItem,
   ForecastResponseType,
 } from "@/app/types/ForecastResponseType";
-import { dayString } from "@/app/component/DaySelector";
-import { useGeneralStore } from "@/app/store/useGeneralStore";
+import { BaseUrl, ForecastWeatherUrl, OpenWeatherApiKey } from "../Urls";
 
 type HourlyForecast = {
   dt_txt: string;
@@ -70,7 +70,7 @@ function processHourlyForecastByDay(data: {
     const arr = result[day] as Array<ProcessedForecast & { ts: number }>;
     arr.sort((a, b) => a.ts - b.ts);
     // strip ts
-    result[day] = arr.map(({ ts, ...rest }) => rest);
+    result[day] = arr.map(({ ts, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
   });
 
   return result;

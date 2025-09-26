@@ -40,11 +40,17 @@ const WeatherForecastCard: React.FC<WeatherForecastCardProps> = ({
           height={60}
         />
         <div className="flex w-full items-center justify-between">
-          <label className="text-lg font-medium">
-            {dayTemp}°{units === "metric" ? "C" : "F"}
+          <label className="md:text-lg text-sm font-medium flex items-center">
+            {dayTemp}°
+            <span className="md:block hidden">
+              {units === "metric" ? "C" : "F"}
+            </span>
           </label>
-          <label className="text-lg font-medium">
-            {nightTemp}°{units === "metric" ? "C" : "F"}
+          <label className="md:text-lg text-sm font-medium flex items-center">
+            {nightTemp}°
+            <span className="md:block hidden">
+              {units === "metric" ? "C" : "F"}
+            </span>
           </label>
         </div>
       </div>

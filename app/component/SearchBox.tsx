@@ -1,7 +1,6 @@
 "use client";
 
 import { LineSpinner } from "ldrs/react";
-import "ldrs/react/DotWave.css";
 import "ldrs/react/LineSpinner.css";
 import Image from "next/image";
 import React from "react";
@@ -10,30 +9,34 @@ import { useWeatherStore } from "../store/useWeatherStore";
 import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 
 export default function SearchBox() {
-  const { searchFieldText, setSearchFieldText } = useWeatherStore();
+  const { searchFieldText, setSearchFieldText, setSearchFieldFallbackText } =
+    useWeatherStore();
   const { isLoading } = useGeneralStore();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     CurrentWeatherApi(searchFieldText);
   };
   return (
-    <div className="w-full mt-18">
+    <div className="w-full md:mt-18 mt-12">
       <h1
         style={{ fontFamily: "var(--font-bricolage)" }}
-        className="text-white text-center text-[52px] font-bold w-full mb-8"
+        className="text-white text-center text-[52px] font-bold md:w-full sm:max-w-[482px] w-full mx-auto mb-8"
       >
-        How is the sky looking today?
+        {"How's the sky looking today?"}
       </h1>
       <form
         onSubmit={handleSearch}
-        className="w-full flex items-center justify-center gap-3"
+        className="w-full flex sm:flex-row flex-col items-center justify-center gap-3"
       >
-        <div className="relative w-full max-w-[640px]">
+        <div className="relative w-full md:max-w-[640px]">
           <input
             required
             type="search"
             value={searchFieldText}
-            onChange={(e) => setSearchFieldText(e.target.value)}
+            onChange={(e) => {
+              setSearchFieldText(e.target.value);
+              setSearchFieldFallbackText(e.target.value);
+            }}
             placeholder="Search for a place..."
             className="!w-full py-3 pr-4 pl-12 border border-[#4B5563B2]/70 bg-[#262540] text-[#D4D3D9] rounded-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-white outline-offset-2"
           />
@@ -48,11 +51,11 @@ export default function SearchBox() {
         <button
           type="submit"
           disabled={isLoading}
-          className="bg-blue-500 hover:bg-blue-700 text-white py-3 px-7 rounded-xl font-medium cursor-pointer hover:outline-blue-500 hover:outline-2 outline-offset-2"
+          className="bg-blue-500 hover:bg-blue-700 text-white py-3 px-7 rounded-xl font-medium cursor-pointer hover:outline-blue-500 hover:outline-2 outline-offset-2 sm:w-max w-full"
         >
           {isLoading ? "Loading..." : "Search"}
           {isLoading && (
-            <LineSpinner size="16" stroke="1.5" speed="1" color="black" />
+            <LineSpinner size="16" stroke="1.5" speed="1" color="white" />
           )}
         </button>
       </form>

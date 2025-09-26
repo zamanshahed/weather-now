@@ -26,11 +26,29 @@ const DaySelector: React.FC<DaySelectorProps> = ({
     setIsOpen(!isOpen);
   };
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center justify-between select-none bg-[#3C3B5E] hover:outline-2 outline-offset-1 rounded-lg px-4 py-3 text-white font-medium cursor-pointer min-w-[140px]"
+        className="flex items-center justify-between select-none bg-[#3C3B5E] hover:outline-2 outline-offset-1 rounded-lg px-4 py-2 md:py-3 text-white font-medium cursor-pointer min-w-[140px]"
       >
         {value}
         <Image

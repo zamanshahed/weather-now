@@ -15,7 +15,7 @@ export const CurrentWeatherApi = async (cityName: string) => {
     const data = await response.json();
     if (!response.ok) {
       setCentralErrorDepo([data?.message]);
-      setWeatherResponse(null);
+      setWeatherResponse(data);
       setIsLoading(false);
     } else {
       setWeatherResponse(data);

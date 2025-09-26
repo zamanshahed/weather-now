@@ -10,19 +10,21 @@ const FiveDaysForecastSection: React.FC = () => {
   const { isLoading } = useGeneralStore();
   if (fiveDayForecastResponse?.length && weatherResponse?.name)
     return (
-      <div className="mt-12 w-full max-w-[800px]">
+      <div className="mt-12 w-full">
         <h1 className="text-white text-xl font-semibold mb-5">
           Daily forecast
         </h1>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
           {fiveDayForecastResponse.map((item, index) => (
             <WeatherForecastCard
               key={index}
               isLoading={isLoading}
               day={item?.day}
               iconCode={item?.icon}
-              dayTemp={item?.day_temp}
-              nightTemp={item?.night_temp}
+              dayTemp={item?.day_temp ? parseInt(item.day_temp.toFixed(0)) : 0}
+              nightTemp={
+                item?.night_temp ? parseInt(item.night_temp.toFixed(0)) : 0
+              }
             />
           ))}
         </div>

@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${dmSans.variable} ${bricolage.variable} antialiased`}>
         <div
           style={{ fontFamily: "var(--font-dm-sans)" }}
-          className="bg-gradient-to-br from-[#1E1B4B] via-[#581C87] to-[#1E1B4B] min-h-screen p-5"
+          className="bg-gradient-to-br from-[#1E1B4B] via-[#581C87] to-[#1E1B4B] min-h-screen sm:p-6 p-4"
         >
           {children}
         </div>
