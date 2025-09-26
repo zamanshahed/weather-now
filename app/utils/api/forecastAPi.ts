@@ -6,6 +6,7 @@ import {
   ForecastResponseType,
 } from "@/app/types/ForecastResponseType";
 import { dayString } from "@/app/component/DaySelector";
+import { useGeneralStore } from "@/app/store/useGeneralStore";
 
 type HourlyForecast = {
   dt_txt: string;
@@ -145,24 +146,33 @@ export const ForecastWeatherApi = async (
     setHourlyForecastResponse,
     setSearchFieldText,
   } = useWeatherStore.getState();
+  const { setIsLoading, setCentralErrorDepo, centralErrorDepo } =
+    useGeneralStore.getState();
   try {
     const response = await fetch(
       `${BaseUrl}${ForecastWeatherUrl}?q=${cityName}&cnt=${numberOfTimeStamps}&appid=${OpenWeatherApiKey}&units=${units}`,
     );
     const data = await response.json();
 
-    const fiveDaysData = getFiveDayForecast(data);
-    const processed = processHourlyForecastByDay(data);
-    console.log(processed);
-    setHourlyForecastResponse(processed);
-    const processedDayArray = Object.keys(processed) as dayString[];
-    setSelectedDay(processedDayArray[0]);
-    setFiveDayForecastResponse(fiveDaysData);
-    setForecastResponse(data);
+    if (!response.ok) {
+      setIsLoading(false);
+      setCentralErrorDepo([...centralErrorDepo, data?.message]);
+    } else {
+      const fiveDaysData = getFiveDayForecast(data);
+      const processed = processHourlyForecastByDay(data);
+      console.log(processed);
+      setHourlyForecastResponse(processed);
+      const processedDayArray = Object.keys(processed) as dayString[];
+      setSelectedDay(processedDayArray[0]);
+      setFiveDayForecastResponse(fiveDaysData);
+      setForecastResponse(data);
 
-    setSearchFieldText(""); //reset the input field, after fetching data...
-    return data;
+      setSearchFieldText(""); //reset the input field, after fetching data...
+      setIsLoading(false);
+      return data;
+    }
   } catch (error) {
     console.log(error);
+    setIsLoading(false);
   }
 };
