@@ -35,7 +35,7 @@ const UnitSelector: React.FC<UnitSelectorProps> = ({ value, onChange }) => {
     <div className="relative" ref={containerRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-2.5 select-none bg-[#262540] hover:outline-2 outline-offset-1 rounded-lg md:px-4 md:py-3 md:text-base text-sm px-2.5 py-2 text-white font-medium cursor-pointer"
+        className="flex items-center gap-2.5 select-none bg-[#262540] focus-visible:outline-2 focus-visible:outline-white outline-offset-1 rounded-lg md:px-4 md:py-3 md:text-base text-sm px-2.5 py-2 text-white font-medium cursor-pointer"
       >
         <Image
           src={"/icons/units-icon.svg"}
@@ -82,7 +82,7 @@ const UnitSelectorDropdown: React.FC<UnitSelectorProps> = ({
     <div className="w-[214px] p-2 space-y-2 rounded-xl text-white border border-[#3C3B5E] bg-[#262540] shadow-lg font-medium">
       <button
         onClick={() => onChange(value === "metric" ? "imperial" : "metric")}
-        className="hover:bg-[#302F4A] hover:outline-2 outline-offset-1 p-2.5 rounded-lg w-full text-left cursor-pointer"
+        className="hover:bg-[#302F4A] focus-visible:outline-2 focus-visible:outline-white outline-offset-1 p-2.5 rounded-lg w-full text-left cursor-pointer"
       >
         Switch to {value === "metric" ? "Imperial" : "Metric"}
       </button>

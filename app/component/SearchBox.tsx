@@ -20,7 +20,7 @@ export default function SearchBox() {
     <div className="w-full md:mt-18 mt-12">
       <h1
         style={{ fontFamily: "var(--font-bricolage)" }}
-        className="text-white text-center text-[52px] font-bold md:w-full sm:max-w-[482px] w-full mx-auto mb-8"
+        className="text-white text-center text-[52px] font-bold md:w-full sm:w-[482px] w-full mx-auto mb-8"
       >
         {"How's the sky looking today?"}
       </h1>
@@ -51,7 +51,7 @@ export default function SearchBox() {
         <button
           type="submit"
           disabled={isLoading}
-          className="bg-blue-500 hover:bg-blue-700 text-white py-3 px-7 rounded-xl font-medium cursor-pointer hover:outline-blue-500 hover:outline-2 outline-offset-2 sm:w-max w-full"
+          className="bg-[#4658D9] hover:bg-[#2B1B9C] text-white py-3 px-7 rounded-xl font-medium cursor-pointer focus-visible:outline-[#4658D9] focus-visible:outline-2 outline-offset-2 sm:w-max w-full"
         >
           {isLoading ? "Loading..." : "Search"}
           {isLoading && (

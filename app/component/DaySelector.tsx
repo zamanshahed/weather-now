@@ -48,7 +48,7 @@ const DaySelector: React.FC<DaySelectorProps> = ({
     <div className="relative" ref={containerRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center justify-between select-none bg-[#3C3B5E] hover:outline-2 outline-offset-1 rounded-lg px-4 py-2 md:py-3 text-white font-medium cursor-pointer min-w-[140px]"
+        className="flex items-center justify-between select-none bg-[#3C3B5E] focus-visible:outline-2 focus-visible:outline-white outline-offset-1 rounded-lg px-4 py-2 md:py-3 text-white font-medium cursor-pointer min-w-[140px]"
       >
         {value}
         <Image
@@ -69,7 +69,7 @@ const DaySelector: React.FC<DaySelectorProps> = ({
                   onChange(day);
                   setIsOpen(false);
                 }}
-                className={`hover:bg-[#302F4A] hover:outline-2 outline-offset-1 p-2.5 rounded-lg w-full text-left cursor-pointer ${value === day ? "bg-[#302F4A]" : ""}`}
+                className={`hover:bg-[#302F4A] focus-visible:outline-2 focus-visible:outline-white outline-offset-1 p-2.5 rounded-lg w-full text-left cursor-pointer ${value === day ? "bg-[#302F4A]" : ""}`}
               >
                 {day}
               </button>
