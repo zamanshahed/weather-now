@@ -12,9 +12,13 @@ export default function SearchBox() {
   const { searchFieldText, setSearchFieldText, setSearchFieldFallbackText } =
     useWeatherStore();
   const { isLoading } = useGeneralStore();
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     CurrentWeatherApi(searchFieldText);
+
+    inputRef.current?.blur();
   };
   return (
     <div className="w-full md:mt-18 mt-12">
@@ -30,6 +34,7 @@ export default function SearchBox() {
       >
         <div className="relative w-full md:max-w-[640px]">
           <input
+            ref={inputRef}
             required
             type="search"
             value={searchFieldText}
