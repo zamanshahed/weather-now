@@ -26,6 +26,7 @@ export default function SearchBox() {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGeoCodingResponse(null);
     CurrentWeatherApi(searchFieldText);
     inputRef.current?.blur();
   };
@@ -65,14 +66,19 @@ export default function SearchBox() {
             placeholder="Search for a place..."
             className="!w-full py-3 pr-4 pl-12 border border-[#4B5563B2]/70 bg-[#262540] text-[#D4D3D9] rounded-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-white outline-offset-2"
           />
-          <Image
-            alt="search-icon"
-            src={"/icons/search-icon.svg"}
-            width={20}
-            height={20}
-            className="absolute left-5 top-1/2 -translate-y-1/2"
-          />
-
+          {isLoadingGeoCoding ? (
+            <div className="absolute left-5 top-7 -translate-y-1/2">
+              <LineSpinner size="18" stroke="1.5" speed="1" color="white" />
+            </div>
+          ) : (
+            <Image
+              alt="search-icon"
+              src={"/icons/search-icon.svg"}
+              width={20}
+              height={20}
+              className="absolute left-5 top-1/2 -translate-y-1/2"
+            />
+          )}
           {!!searchFieldText && geoCodingResponse !== null && (
             <div className="absolute top-14 z-50 w-full flex flex-col gap-2 bg-[#262540] border border-[#302F4A] rounded-xl p-2">
               {isLoadingGeoCoding ? (
