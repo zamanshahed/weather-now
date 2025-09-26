@@ -22,7 +22,7 @@ const HourlyForecastSection: React.FC = () => {
   if (weatherResponse?.name && hourlyForecastResponse) {
     const daysArray = Object.keys(hourlyForecastResponse) as dayString[];
     return (
-      <div className="lg:w-[384px] w-full rounded-2xl bg-[#262540] text-white md:p-6 p-4 sm:mt-0 mt-3">
+      <div className="lg:min-w-[384px] lg:max-w-[384px] w-full rounded-2xl bg-[#262540] text-white md:p-6 p-4 sm:mt-0 mt-3">
         <div className="flex items-center justify-between mb-4">
           <h1 className="md:text-xl text-base font-semibold">
             Hourly Forecast

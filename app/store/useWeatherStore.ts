@@ -8,6 +8,7 @@ import {
   ForecastResponseType,
 } from "../types/ForecastResponseType";
 import { dayString } from "../component/DaySelector";
+import { GeocodeResType } from "../types/GeocodeResType";
 
 type WeatherState = {
   searchFieldText: string;
@@ -35,6 +36,9 @@ type WeatherState = {
 
   hourlyForecastResponse: ForecastData | null;
   setHourlyForecastResponse: (response: ForecastData | null) => void;
+
+  geoCodingResponse: GeocodeResType[] | null;
+  setGeoCodingResponse: (response: GeocodeResType[] | null) => void;
 };
 
 export const useWeatherStore = create<WeatherState>((set) => ({
@@ -67,4 +71,8 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   hourlyForecastResponse: null,
   setHourlyForecastResponse: (response: ForecastData | null) =>
     set(() => ({ hourlyForecastResponse: response })),
+
+  geoCodingResponse: null,
+  setGeoCodingResponse: (response: GeocodeResType[] | null) =>
+    set(() => ({ geoCodingResponse: response })),
 }));

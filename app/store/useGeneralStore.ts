@@ -8,6 +8,9 @@ type WeatherState = {
 
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+
+  isLoadingGeoCoding: boolean;
+  setIsLoadingGeoCoding: (loading: boolean) => void;
 };
 
 export const useGeneralStore = create<WeatherState>((set) => ({
@@ -17,4 +20,8 @@ export const useGeneralStore = create<WeatherState>((set) => ({
 
   isLoading: false,
   setIsLoading: (loading: boolean) => set(() => ({ isLoading: loading })),
+
+  isLoadingGeoCoding: false,
+  setIsLoadingGeoCoding: (loading: boolean) =>
+    set(() => ({ isLoadingGeoCoding: loading })),
 }));

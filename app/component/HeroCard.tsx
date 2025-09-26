@@ -42,13 +42,13 @@ const HeroCard: React.FC = () => {
       ) : (
         <div className="absolute top-1/2 left-0 transform -translate-y-1/2 flex sm:flex-row flex-col sm:gap-4 items-center justify-between w-full p-6">
           <div className="flex flex-col items-center sm:items-start">
-            <h1 className="text-[28px] font-bold">
+            <h1 className="sm:text-[28px] text-xl font-bold text-center sm:text-left">
               {weatherResponse?.name}
               {weatherResponse?.sys.country
                 ? `, ${countryMap[weatherResponse?.sys.country]}`
                 : ""}
             </h1>
-            <p className="text-lg font-medium capitalize">
+            <p className="sm:text-lg text-sm font-medium capitalize">
               {new Date().toLocaleDateString("en-US", {
                 weekday: "long",
                 month: "short",

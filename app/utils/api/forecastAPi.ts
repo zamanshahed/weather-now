@@ -160,7 +160,6 @@ export const ForecastWeatherApi = async (
     } else {
       const fiveDaysData = getFiveDayForecast(data);
       const processed = processHourlyForecastByDay(data);
-      console.log(processed);
       setHourlyForecastResponse(processed);
       const processedDayArray = Object.keys(processed) as dayString[];
       setSelectedDay(processedDayArray[0]);
