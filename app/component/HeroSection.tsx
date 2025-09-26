@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
     );
   else if (centralErrorDepo?.length > 0)
     return (
-      <div className="-mt-5 text-white font-bold text-3xl capitalize">
+      <div className="-mt-5 text-white font-bold text-3xl capitalize text-center">
         {centralErrorDepo?.length > 0
           ? centralErrorDepo[0] === "city not found"
             ? "No search result found!"

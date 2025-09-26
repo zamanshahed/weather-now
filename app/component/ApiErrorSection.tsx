@@ -21,7 +21,7 @@ const ApiErrorSection: React.FC<ApiErrorSectionProps> = ({ children }) => {
         <Image src="/icons/wrong.svg" alt="Error" width={42} height={50} />
         <h1
           style={{ fontFamily: "var(--font-bricolage)" }}
-          className="text-[52px] font-bold"
+          className="text-[52px] font-bold text-center"
         >
           Something went wrong
         </h1>

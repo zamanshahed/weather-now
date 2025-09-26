@@ -17,8 +17,13 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Weather Now",
+  title: "Weather Today",
   description: "Crafted by zamanShahed",
+  // icons: {
+  //   icon: "/icons/logo.png",
+  //   shortcut: "/icons/logo.png",
+  //   apple: "/icons/logo.png",
+  // },
 };
 
 export default function RootLayout({

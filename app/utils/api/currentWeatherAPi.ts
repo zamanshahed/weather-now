@@ -1,7 +1,13 @@
 import { useWeatherStore } from "@/app/store/useWeatherStore";
-import { BaseUrl, CurrentWeatherUrl, OpenWeatherApiKey } from "../Urls";
+import {
+  BaseUrl,
+  CurrentWeatherUrl,
+  IconsUrl,
+  OpenWeatherApiKey,
+} from "../Urls";
 import { ForecastWeatherApi } from "./forecastAPi";
 import { useGeneralStore } from "@/app/store/useGeneralStore";
+import { setFaviconTitles } from "../utility";
 
 export const CurrentWeatherApi = async (cityName: string) => {
   const { setWeatherResponse, units } = useWeatherStore.getState();
@@ -18,6 +24,13 @@ export const CurrentWeatherApi = async (cityName: string) => {
       setWeatherResponse(data);
       setIsLoading(false);
     } else {
+      setFaviconTitles(
+        IconsUrl + data?.weather[0].icon + "@2x.png",
+        data?.name +
+          " " +
+          data?.main.temp.toFixed(0) +
+          `${units === "metric" ? "°C" : "°F"}`,
+      );
       setWeatherResponse(data);
       if (data?.coord?.lat && data?.coord?.lon)
         ForecastWeatherApi(cityName, 40);

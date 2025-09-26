@@ -6,6 +6,7 @@ import { useWeatherStore } from "../store/useWeatherStore";
 import UnitSelector from "./UnitSelector";
 import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 import Link from "next/link";
+import { setFaviconTitles } from "../utils/utility";
 
 export default function TopSection() {
   const {
@@ -29,6 +30,8 @@ export default function TopSection() {
       localStorage.setItem("units", "metric");
       setUnits("metric");
     } else setUnits(localUnit as "metric" | "imperial");
+
+    setFaviconTitles("/icons/logo.png");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
