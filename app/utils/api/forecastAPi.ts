@@ -143,12 +143,14 @@ export const ForecastWeatherApi = async (
     setForecastResponse,
     setFiveDayForecastResponse,
     setHourlyForecastResponse,
+    setSearchFieldText,
   } = useWeatherStore.getState();
   try {
     const response = await fetch(
       `${BaseUrl}${ForecastWeatherUrl}?q=${cityName}&cnt=${numberOfTimeStamps}&appid=${OpenWeatherApiKey}&units=${units}`,
     );
     const data = await response.json();
+
     const fiveDaysData = getFiveDayForecast(data);
     const processed = processHourlyForecastByDay(data);
     console.log(processed);
@@ -157,6 +159,8 @@ export const ForecastWeatherApi = async (
     setSelectedDay(processedDayArray[0]);
     setFiveDayForecastResponse(fiveDaysData);
     setForecastResponse(data);
+
+    setSearchFieldText(""); //reset the input field, after fetching data...
     return data;
   } catch (error) {
     console.log(error);

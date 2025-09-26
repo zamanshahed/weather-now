@@ -7,13 +7,13 @@ import UnitSelector from "./UnitSelector";
 import { CurrentWeatherApi } from "../utils/api/currentWeatherAPi";
 
 export default function TopSection() {
-  const { units, setUnits, searchFieldText } = useWeatherStore();
+  const { units, setUnits, weatherResponse } = useWeatherStore();
 
   const handleUnitChange = (value: string) => {
     const newUnit = value as "metric" | "imperial";
     setUnits(newUnit);
     localStorage.setItem("units", newUnit);
-    CurrentWeatherApi(searchFieldText); //refetch the data with desired units pref.
+    if (weatherResponse?.name) CurrentWeatherApi(weatherResponse?.name); //note: refetch the data if there is any successful response, with changed units pref.
   };
 
   useEffect(() => {
